@@ -112,8 +112,11 @@ for i in {1..5}; do curl http://localhost:80; done
 docker inspect --format='{{.State.Health.Status}}' webserver-test
 ```
 ```
-# Clean up test container
+# Stop test container
 docker stop webserver-test
+```
+```
+# Remove test container
 docker rm webserver-test
 ```
 
