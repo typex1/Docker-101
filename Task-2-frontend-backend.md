@@ -2,6 +2,39 @@ Here’s how you can **connect a Flask frontend container to a Redis storage con
 
 ---
 
+Here’s a **Mermaid diagram** illustrating the connectivity between your Flask app container and the Redis container, as well as how they communicate over the Docker network:
+
+```mermaid
+graph LR
+    subgraph Docker Network[flask-redis-net]
+        FlaskApp[Flask App\nPort: 5000] -->|Writes/Reads| Redis[Redis\nPort: 6379]
+        Redis -->|Responds| FlaskApp
+    end
+
+    User[Your Machine] -->|HTTP Requests\nPort: 5000| FlaskApp
+```
+
+---
+
+### **Explanation of the Diagram**
+- **Flask App Container**:
+  - Exposes port **5000** to your host machine (you can send HTTP requests to it).
+  - Connects to Redis using the container name `redis` and port **6379** (only accessible within the Docker network).
+
+- **Redis Container**:
+  - Listens on port **6379**, but only within the Docker network.
+  - Communicates with the Flask app, but is not exposed to your host machine.
+
+- **Docker Network (`flask-redis-net`)**:
+  - Both containers are attached to this network, allowing them to communicate using their container names as hostnames.
+
+- **Your Machine**:
+  - Sends HTTP requests (e.g., `curl`) to the Flask app on port **5000**.
+  - Cannot directly access Redis (port 6379 is not exposed to your host).
+
+---
+
+
 ### **Project Structure**
 ```
 flask_redis_manual/
