@@ -112,10 +112,6 @@ for i in {1..5}; do curl http://localhost:80; done
 docker inspect --format='{{.State.Health.Status}}' webserver-test
 ```
 ```
-# Security scan (using Docker Scout)
-docker scout cves webserver:latest
-```
-```
 # Clean up test container
 docker stop webserver-test
 docker rm webserver-test
