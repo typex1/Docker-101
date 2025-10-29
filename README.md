@@ -74,21 +74,6 @@ Key features and best practices implemented:
    - Single-stage build since it's a simple application
    - Inline application code for this specific use case
 
-To build and run:
-```bash
-docker build -t webserver .
-docker run -p 80:80 webserver
-```
-
-Access the application at http://localhost:80
-
-Note: For a real production environment, you might want to:
-- Add proper error handling
-- Implement logging
-- Add security headers
-- Use environment variables for configuration
-- Implement proper monitoring and metrics
-
 ---
 
 Build Instructions:
@@ -99,36 +84,38 @@ Here's a detailed step-by-step guide for building, testing, tagging, and publish
 ```bash
 # Build with proper tags from the start
 docker build -t webserver:latest -t webserver:1.0.0 .
-
-# Build with additional flags for security
-docker build --no-cache --pull \
-  --security-opt no-new-privileges \
-  -t webserver:latest -t webserver:1.0.0 .
 ```
 
 2. **Testing the Build**
 ```bash
 # Run container in detached mode
 docker run -d -p 80:80 --name webserver-test webserver:latest
-
+```
+```
 # Verify container is running
 docker ps
-
+```
+```
 # Check container logs
 docker logs webserver-test
-
+```
+```
 # Test the application
 curl http://localhost:80
-
+```
+```
 # Test multiple requests to verify random number changes
 for i in {1..5}; do curl http://localhost:80; done
-
+```
+```
 # Check container health
 docker inspect --format='{{.State.Health.Status}}' webserver-test
-
+```
+```
 # Security scan (using Docker Scout)
 docker scout cves webserver:latest
-
+```
+```
 # Clean up test container
 docker stop webserver-test
 docker rm webserver-test
